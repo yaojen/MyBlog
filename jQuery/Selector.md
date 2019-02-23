@@ -22,7 +22,7 @@
 > $('#Id1,#Id2,#Id3')
 
 *** 
-## Descendant 選擇器
+## Hierarchy 選擇器
 
 **$('父元素 子元素')**
 只要是父元素下的子元素，且子元素的子元素都會被選到，以此類推。
@@ -51,7 +51,7 @@
 > $('#con2 > p')
 
 ***
-## Attribute Filter
+## Attribute Selector
 也就是字面上的意思，針對屬性來進行篩選。
 
 **$('[attribute]')**
@@ -189,6 +189,77 @@ $('#mybtn').click(function(){
 </script>
 ```
 
+## 表單　form Selector
+注意這邊用的是:不是html上的=唷
+**$(':input')**
+抓到畫面上所有的input、select、textarea跟button。
+如果這些都放在form裡面，其實效果跟$('from > * ')一樣
+
+```html
+<form>
+  <input type="button" value="Input Button">
+  <input type="checkbox">
+  <input type="file">
+  <input type="hidden">
+  <input type="image">
+  <input type="password">
+  <input type="radio">
+  <input type="reset">
+  <input type="submit">
+  <input type="text">
+  <select>
+    <option>Option</option>
+    <option>Option</option>
+    <option>Option</option>
+  </select>
+  <textarea></textarea>
+  <button>Button</button>
+</form>
+<div id="messages"></div>
+
+<script>
+var allInputs = $(':input');
+
+$('#messages').html(allInputs.length);
+</script>
+
+```
+
+**$(':text')**
+上面的表示法，會將畫面上所有的<input type="text">的節點都選到，因為它隱含*，
+所以 $(':text') == $('*:text')的效果，所以原來的$('input:text')就被取代了。
+
+下面例子，第一與第二選擇器都會抓到兩個type=text的節點，而第三個則只會抓到form裡面的。
+```html
+<form>
+    <input type="button" value="Input Button">
+    <input type="checkbox">
+    <input type="file">
+    <input type="hidden">
+    <input type="image">
+    <input type="password">
+    <input type="radio">
+    <input type="reset">
+    <input type="submit">
+    <input type="text">
+    <select>
+        <option>Option</option>
+        <option>Option</option>
+        <option>Option</option>
+    </select>
+    <textarea></textarea>
+    <button>Button</button>
+</form>
+<div id="messages"></div>
+
+<input type="text" />
+
+<script>
+    $(':text').addClass('container');
+    $('input:text').addClass('container');
+    $('form input:text').addClass('container');
+</script>
+```
 
 
 [參考資料](https://oscarotero.com/jquery/)
