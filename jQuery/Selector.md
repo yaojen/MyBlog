@@ -50,6 +50,42 @@
 選出父元素下的子元素，子元素的子元素都不會被選到。跟$('父元素 子元素')不同
 > $('#con2 > p')
 
+**$('prev + next')**
+抓出符合prev選擇器後的，第一個符合next的選擇器，注意不是在prev內層唷，是他之後。這應該是常跟Form的input做搭配。
+下面範例會抓出input後的第span，也就是Mary1。
+```html
+<div>
+  <input type="checkbox" name="a">
+  <span>Mary1</span>
+  <p>Mary2</p>
+  <p>Mary3</p>
+  <span>Mary4</span>
+</div>
+
+<script>
+    $('input:not(:checked) + span').addClass('container');
+</script>
+```
+
+**$('prev ~siblings')**
+抓出符合prev選擇器後，所有符合siblings選擇器的元素。一樣不是prev內層，而是他之後。這應該是常跟Form的input做搭配。
+
+如下範例，會抓到input後的所有的p，也就是Mary2 / Mary3。
+```html
+<div>
+  <input type="checkbox" name="a">
+  <span>Mary1</span>
+  <p>Mary2</p>
+  <p>Mary3</p>
+  <span>Mary4</span>
+</div>
+
+<script>
+    $('input:not(:checked) ~ p').addClass('container');
+</script>
+
+```
+
 ***
 ## Attribute Selector
 也就是字面上的意思，針對屬性來進行篩選。
@@ -259,6 +295,136 @@ $('#messages').html(allInputs.length);
     $('input:text').addClass('container');
     $('form input:text').addClass('container');
 </script>
+```
+
+## Basic Filter 基本過濾器
+**$(':eq(index)')**
+選擇器當中的內容，本身就是一個集合，可以透過:eq(index)，抓出指定的節點。另外jQuery還有一個$('selector').eq(index)，這個的效能會比放在選擇器的效能好。
+下面的範例，b跟d都會被選到，添加container屬性。
+```html
+<ul>
+  <li>a</li>
+  <li>b</li>
+  <li>c</li>
+  <li>d</li>
+  <li>e</li>
+</ul>
+
+<script>
+    $('ul > li:eq(1)').addClass('container');
+
+    $('ul > li').eq(3).addClass('container');
+</script>
+```
+
+另外也可以使用負數，下面範例，e會被選到。
+
+```html
+<ul>
+  <li>a</li>
+  <li>b</li>
+  <li>c</li>
+  <li>d</li>
+  <li>e</li>
+</ul>
+
+<script>
+    $('ul > li:eq(-1)').addClass('container');
+</script>
+
+```
+
+
+**$(':first') / $(':last')**
+跟:eq(index)使用方法一樣，選擇器本身就是一個集合，透過:first，抓出第一筆節點。這個方法也等於eq(0)。
+另外jQuery本身也有.first()方法，功能一樣。
+下面範例會抓出Row1的結點。
+
+```html
+<table>
+  <tr><td>Row 1</td></tr>
+  <tr><td>Row 2</td></tr>
+  <tr><td>Row 3</td></tr>
+</table>
+
+<script>
+/$('tr:first').addClass('container');
+$('tr').first().addClass('container');
+</script>
+```
+
+**$(':even') / $(':odd')**
+抓出奇數/偶數的節點。這個就沒有像是eq/first有另外的jQuery方法。
+
+```html
+<table>
+  <tr><td>Row 1</td></tr>
+  <tr><td>Row 2</td></tr>
+  <tr><td>Row 3</td></tr>
+  <tr><td>Row 4</td></tr>
+  <tr><td>Row 5</td></tr>
+  <tr><td>Row 6</td></tr>
+  <tr><td>Row 7</td></tr>
+</table>
+
+<script>
+ $('tr:even').addClass('container');
+</script>
+
+```
+
+**$(':gt(index)') / $(':lt(index)')**
+gt是抓出大於index的節點，ｌt則是抓出小於index的節點。其中index也可以是負數。
+下面範例會抓出，Row4~Row7
+```html
+<table>
+  <tr><td>Row 1</td></tr>
+  <tr><td>Row 2</td></tr>
+  <tr><td>Row 3</td></tr>
+  <tr><td>Row 4</td></tr>
+  <tr><td>Row 5</td></tr>
+  <tr><td>Row 6</td></tr>
+  <tr><td>Row 7</td></tr>
+</table>
+
+<script>
+    $('tr:gt(2)').addClass('container');
+</script>
+```
+
+**$(':not(selector)')**
+排除符合not當中的selector節點。
+下列中，會軒到Mary跟Icm的span，
+```html
+<div>
+  <input type="checkbox" name="a"><span>Mary</span>
+</div>
+<div>
+  <input type="checkbox" name="b"><span>lcm</span>
+</div>
+<div>
+  <input type="checkbox" name="c" checked="checked"><span>Peter</span>
+</div>
+
+<script>
+    $('input:not(:checked) + span').addClass('container');
+</script>
+
+```
+
+**$(':header')**
+抓出所有的header，例如h1/h2/h3....
+如下範例，會抓出h1/h2
+```html
+<h1>Header 1</h1>
+<p>Contents 1</p>
+<h2>Header 2</h2>
+<p>Contents 2</p>
+
+<script> 
+    $(':header').addClass('container');
+</script>
+
 ```
 
 
