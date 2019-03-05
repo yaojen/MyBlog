@@ -51,8 +51,8 @@
 > $('#con2 > p')
 
 **$('prev + next')**
-抓出符合prev選擇器後的，第一個符合next的選擇器，注意不是在prev內層唷，是他之後。這應該是常跟Form的input做搭配。
-下面範例會抓出input後的第span，也就是Mary1。
+抓出符合prev選擇器後的，第一個符合next的選擇器，注意不是在prev內層唷，是他之後，跟prev是同一層。這應該是常跟Form的input做搭配。
+下面範例會抓出input後的第span，也就是Mary1。Mary因為屬於不同層，所以不會被抓出來。
 ```html
 <div>
   <input type="checkbox" name="a">
@@ -61,6 +61,7 @@
   <p>Mary3</p>
   <span>Mary4</span>
 </div>
+<span>Mary5</span>
 
 <script>
     $('input:not(:checked) + span').addClass('container');
@@ -296,6 +297,65 @@ $('#messages').html(allInputs.length);
     $('form input:text').addClass('container');
 </script>
 ```
+**$(':password')**  
+
+**$(':radio')**
+
+**$(':checkbox')**
+
+**$(':submit')**
+
+**$(':image')**
+
+**$(':reset')**
+
+**$(':button')**
+
+**$(':file')**
+意義同$(':text')方法。
+
+**$(':disabled')**
+**$(':enabled')**
+抓取input欄位disabled或enabled的節點
+下面第一個方法，抓到form裡面的input為disabled
+第二個方法，抓到所有disabled的input
+```html
+<form >
+  <input name="email" disabled="disabled">
+  <input name="id">
+</form>
+ <input name="email" disabled="disabled">
+
+<script>
+  $('form :disabled').addClass('container');
+  $(':disabled').addClass('container');
+</script>
+
+```
+
+
+## Visibility Filters
+**$(':hidden')**
+下面這幾種狀況都被視為hidden，CSS的display的value為none，type="hidden"(這個是input標籤才有的屬性)，width跟height設定為0，父節點設定為Hidden，這些都是被視為hidden。
+
+下面例子會讓hidden的部分顯示出來。
+```html
+<form action="">
+  <input type="text" value="12345">
+  <input type="hidden" value="99099" >
+  <input type="text" value="kkkk">
+  <input type="submit" value="button" id="submit">
+</form>
+
+<script>
+  $('#submit').click(function(){
+    $(':hidden').attr({'type':'text'});
+  })
+</script>
+```
+
+**$(':visible')**
+應用如hidden
 
 ## Basic Filter 基本過濾器
 **$(':eq(index)')**
@@ -374,7 +434,7 @@ $('tr').first().addClass('container');
 ```
 
 **$(':gt(index)') / $(':lt(index)')**
-gt是抓出大於index的節點，ｌt則是抓出小於index的節點。其中index也可以是負數。
+gt是抓出大於index的節點，lt則是抓出小於index的節點。其中index也可以是負數。
 下面範例會抓出，Row4~Row7
 ```html
 <table>
@@ -427,5 +487,70 @@ gt是抓出大於index的節點，ｌt則是抓出小於index的節點。其中i
 
 ```
 
+## Content Filter
+
+**$(":contains('text')")**
+抓出內容有包含text的節點
+
+```html
+<h1>Header 1</h1>
+<p>Contents 1</p>
+<h2>Header 2</h2>
+<p>Contents 2</p>
+
+<script>
+    $("p:contains('1')").addClass('container');
+</script>
+```
+
+**$(":empty")**
+抓出過濾器內容是完全空的，沒有html tag，也沒有內容。
+下面範例會抓出，第三個p，第一個p還有span這個tag，所以不會被抓到。
+
+```html
+<div>
+  <p><span></span></p>
+  <p>134</p>
+  <p></p>
+</div>
+
+<script>
+    $("div > p:empty").addClass('container');
+</script>
+```
+
+**$(":has(selector)")**
+抓除只要有has中的selector就可以。
+
+```html
+<div><p>Hello in a paragraph</p></div>
+<div>Hello again! (with no paragraph)</div>
+
+<script>
+    $( "div:has(p)" ).addClass( "container" );
+</script>
+```
+
+
+**$(":parent")**
+抓出至少有一個子節點的元素
+
+
+```html
+<table>
+  <tr><td></td><td></td></tr>
+  <tr><td></td><td>12345</td></tr>
+   <tr><td></td><td></td></tr>
+   <tr><td></td><td></td></tr>
+</table>
+
+<script>
+    $("td:parent").addClass('container');
+</script>
+
+```
+
 
 [參考資料](https://oscarotero.com/jquery/)
+
+
