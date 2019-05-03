@@ -1,0 +1,27 @@
+popover and tooltip
+===
+# popover
+可以透過事件(click/focus/hover)在旁邊跳出提示訊息，跟tooltip很像，但popover除了直接寫在a/button/span當中，也可以透過ajax來取得server端的資料。
+
+1. popover相依tooltip.js，若要直接使用popover功能，也必須引入popover.js，但直接使用bootstrap.js包含tooltip跟popover.js的內容。
+2. 使用方式
+```html 
+<button 
+   type="button" 
+   class="btn btn-default" 
+   data-toggle="popover" 
+   title="popover title" 
+   data-content="popcontent">testPopOver
+</button>
+
+<javascript>
+   $(function(){
+       $('[data-toggle="popover"]').popover();
+   })
+</javascript>
+```
+
+data-toggle="popover"，代表這功能是popover
+title ，代表popover的title
+data-content="..."，代表popover的內容
+有了這些還不能啟動，在document ready之後，透過$('[data-toggle="popover"]').popover();來啟動。
