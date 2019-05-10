@@ -1,6 +1,6 @@
 # JavaScript Array 
-js的陣列屬於複合的資料型態，也就是一個陣列可以存字串或數字。
-
+* js的陣列屬於複合的資料型態，也就是一個陣列可以存字串或數字。
+* array是一種object型態。
 **宣告方式**
 ```javascript
 var arrayName = [item1,item2,item3,...];
